@@ -4,7 +4,7 @@ module.exports = {
   entry: './client/app.jsx',
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
+    filename: 'media.js',
   },
   module: {
     rules: [

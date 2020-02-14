@@ -14,3 +14,13 @@
 - Seed the database `npm run seed`
 - Run webpack `npm run build:dev`
 - Start up the server `npm run start:dev`
+
+
+## CRUD API
+
+ | Endpoints           | Type    | Operation               |
+ | ------------------  | ------- | ------------------------|
+ | /api/experiences/id | GET     | retrieves an experience |
+ | /api/experiences    | POST    | creates an experience   |
+ | /api/experiences/id | PUT     | updates an experience   |
+ | /api/experiences/id | DELETE  | deletes an experience   |
