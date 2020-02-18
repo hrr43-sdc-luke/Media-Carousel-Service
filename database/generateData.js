@@ -1,35 +1,11 @@
 const fs = require('fs');
 
-const writeExperiences = fs.createWriteStream('./experiences.csv');
-const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
+const writeExperiences = fs.createWriteStream('./media-data.csv');
 
 const startTime = process.hrtime();
-const csvStringifier = createCsvStringifier({
-
-  header: [
-    { id: 'experienceId', title: 'experienceId' },
-    { id: 'title', title: 'title' },
-    { id: 'city', title: 'city' },
-    { id: 'state', title: 'state' },
-    { id: 'country', title: 'country' },
-    { id: 'category', title: 'category' },
-    { id: 'activity', title: 'activity' },
-    { id: 'averageRating', title: 'averageRating' },
-    { id: 'numberOfReviews', title: 'numberOfReviews' },
-    { id: 'duration', title: 'duration' },
-    { id: 'groupSize', title: 'groupSize' },
-    { id: 'includes', title: 'includes' },
-    { id: 'cuisine', title: 'cuisine' },
-    { id: 'hostedLanguages', title: 'hostedLanguages' },
-    { id: 'costPerPerson', title: 'costPerPerson' },
-    { id: 'imageUrls', title: 'imageUrls' },
-    { id: 'videoUrl', title: 'videoUrl' },
-  ],
-});
 
 function writeTenMillionExperiences(writer, encoding, callback) {
   console.log('starting writing experiences');
-  writeExperiences.write(csvStringifier.getHeaderString(), 'utf8');
   let i = 10000000;
   let id = 1;
   function write() {
@@ -49,7 +25,7 @@ function writeTenMillionExperiences(writer, encoding, callback) {
       const videoUrlList = ['https://emerald.org', 'http://jerome.com', 'http://estella.com', 'http://alexa.net', 'https://mitchell.com'];
       const languagesList = ['Japanese', 'Chinese', 'Portuguese', 'English', 'German', 'French'];
 
-      let experience = [{
+      const experience = {
         experienceId: id,
         title: titleList[Math.floor(Math.random() * titleList.length)],
         city: cityList[Math.floor(Math.random() * cityList.length)],
@@ -67,20 +43,20 @@ function writeTenMillionExperiences(writer, encoding, callback) {
         costPerPerson: Math.floor(Math.random() * (300 - 10) + 10),
         imageUrls: [],
         videoUrl: videoUrlList[Math.floor(Math.random() * videoUrlList.length)],
-      }];
+      };
 
       // add to includes array
       const numIncludes = Math.floor(Math.random() * 4 + 1);
       for (let j = numIncludes; j > 0; j -= 1) {
         const randomWord = includesList[Math.floor(Math.random() * includesList.length)];
-        experience[0].includes.push(randomWord);
+        experience.includes.push(randomWord);
       }
 
       // add to hostedLanguages
       const numLanguages = Math.floor(Math.random() * 4 + 1);
       for (let k = numLanguages; k > 0; k -= 1) {
         const randomWord = languagesList[Math.floor(Math.random() * languagesList.length)];
-        experience[0].hostedLanguages.push(randomWord);
+        experience.hostedLanguages.push(randomWord);
       }
 
       // add 5 photos
@@ -88,21 +64,21 @@ function writeTenMillionExperiences(writer, encoding, callback) {
         const randomNum = Math.floor(Math.random() * 20 + 1);
         // need to connect to aws s3 for the url
         const url = `https://fec-media.s3.amazonaws.com/photo${randomNum}.jpg`;
-        experience[0].imageUrls.push(url);
+        experience.imageUrls.push(url);
       }
 
-      experience = csvStringifier.stringifyRecords(experience);
+      const includes = `"{${experience.includes}}"`;
+      const hostedLanguages = `"{${experience.hostedLanguages}}"`;
+      const imageUrls = `"{${experience.imageUrls}}"`;
 
-      if (experience.experienceId === 44) {
-        console.log(experience);
-      }
+      const data = `${experience.experienceId},${experience.title},${experience.city},${experience.state},${experience.country},${experience.category},${experience.activity},${experience.averageRating},${experience.numberOfReviews},${experience.duration},${experience.groupSize},${includes},${experience.cuisine},${hostedLanguages},${experience.costPerPerson},${imageUrls},${experience.videoUrl}\n`;
 
       if (i === 0) {
-        writer.write(experience, encoding, callback);
+        writer.write(data, encoding, callback);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(experience, encoding);
+        ok = writer.write(data, encoding);
       }
     } while (i > 0 && ok);
     if (i > 0) {
