@@ -65,9 +65,9 @@ class App extends React.Component {
         const experienceObj = res.data[0];
 
         this.setState({
-          images: experienceObj.imageUrls,
+          images: experienceObj.imageurls,
           experience: experienceObj,
-          languages: experienceObj.hostedLanguages,
+          languages: experienceObj.hostedlanguages,
           includes: experienceObj.includes,
         });
       })
