@@ -4,5 +4,9 @@
 
 /coverage
 
+server/newrelic.js
+
+data/media-data.csv
+
 .env
 

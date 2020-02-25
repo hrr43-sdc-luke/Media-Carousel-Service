@@ -60,14 +60,15 @@ class App extends React.Component {
     // `http://18.217.113.225:3001/api/experiences/${experienceId}`
     // http://localhost:3001/api/experiences/${experienceId}
 
-    axios.get(`/api/experiences/${experienceId}`)
+    axios.get(`http://localhost:3001/api/experiences/${experienceId}`)
+    // axios.get(`/api/experiences/${experienceId}`)
       .then((res) => {
         const experienceObj = res.data[0];
 
         this.setState({
-          images: experienceObj.imageUrls,
+          images: experienceObj.imageurls,
           experience: experienceObj,
-          languages: experienceObj.hostedLanguages,
+          languages: experienceObj.hostedlanguages,
           includes: experienceObj.includes,
         });
       })
