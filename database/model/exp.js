@@ -38,7 +38,7 @@ const getExp = (expId, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log(`Execution time: ${hrtime(timer, 's')}`);
+      // console.log(`Execution time: ${hrtime(timer, 's')}`);
       callback(null, res.rows);
     }
   });
@@ -57,7 +57,7 @@ const createExp = (newExp, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log(`Execution time: ${hrtime(timer, 's')}`);
+      // console.log(`Execution time: ${hrtime(timer, 's')}`);
       callback(null, res.insertId);
     }
   });
@@ -93,7 +93,7 @@ const updateExp = (newExp, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log(`Execution time: ${hrtime(timer, 's')}`);
+      // console.log(`Execution time: ${hrtime(timer, 's')}`);
       callback(null, res);
     }
   });
@@ -110,7 +110,7 @@ const deleteExp = (expId, callback) => {
     if (err) {
       callback(err);
     } else {
-      console.log(`Execution time: ${hrtime(timer, 's')}`);
+      // console.log(`Execution time: ${hrtime(timer, 's')}`);
       callback(null, res);
     }
   });

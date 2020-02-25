@@ -4,7 +4,7 @@
 
 /coverage
 
-newrelic.js
+server/newrelic.js
 
 data/media-data.csv
 
